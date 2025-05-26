@@ -85,7 +85,7 @@ def _rust_library_impl(ctx):
     Returns:
         list: A list of providers.
     """
-    return _rust_library_common(ctx, "rlib")
+    return rust_library_common(ctx, "rlib")
 
 def _rust_static_library_impl(ctx):
     """The implementation of the `rust_static_library` rule.
@@ -99,7 +99,7 @@ def _rust_static_library_impl(ctx):
     Returns:
         list: A list of providers.
     """
-    return _rust_library_common(ctx, "staticlib")
+    return rust_library_common(ctx, "staticlib")
 
 def _rust_shared_library_impl(ctx):
     """The implementation of the `rust_shared_library` rule.
@@ -117,7 +117,7 @@ def _rust_shared_library_impl(ctx):
     Returns:
         list: A list of providers.
     """
-    return _rust_library_common(ctx, "cdylib")
+    return rust_library_common(ctx, "cdylib")
 
 def _rust_proc_macro_impl(ctx):
     """The implementation of the `rust_proc_macro` rule.
@@ -128,9 +128,9 @@ def _rust_proc_macro_impl(ctx):
     Returns:
         list: A list of providers.
     """
-    return _rust_library_common(ctx, "proc-macro")
+    return rust_library_common(ctx, "proc-macro")
 
-def _rust_library_common(ctx, crate_type):
+def rust_library_common(ctx, crate_type):
     """The common implementation of the library-like rules.
 
     Args:
