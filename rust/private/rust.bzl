@@ -1360,7 +1360,7 @@ def common_attrs_for_binary_without_process_wrapper(attrs):
 rust_binary_without_process_wrapper = rule(
     implementation = _rust_binary_impl,
     provides = COMMON_PROVIDERS,
-    attrs = common_attrs_for_binary_without_process_wrapper(_common_attrs | _rust_binary_attrs | {
+    attrs = common_attrs_for_binary_without_process_wrapper(common_attrs | _rust_binary_attrs | {
         "platform": attr.label(
             doc = "Optional platform to transition the binary to.",
             default = None,
@@ -1381,7 +1381,7 @@ rust_binary_without_process_wrapper = rule(
 rust_library_without_process_wrapper = rule(
     implementation = _rust_library_impl,
     provides = COMMON_PROVIDERS,
-    attrs = dict(common_attrs_for_binary_without_process_wrapper(_common_attrs).items()),
+    attrs = dict(common_attrs_for_binary_without_process_wrapper(common_attrs).items()),
     fragments = ["cpp"],
     toolchains = [
         str(Label("//rust:toolchain_type")),
