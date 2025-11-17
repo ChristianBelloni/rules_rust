@@ -663,7 +663,7 @@ _rustc_allocator_libraries_attrs = {
     ),
 }
 
-_common_attrs = {
+common_attrs = {
     "aliases": attr.label_keyed_string_dict(
         doc = dedent("""\
             Remap crates to a new name or moniker for linkage to this target
@@ -930,7 +930,7 @@ _rust_test_attrs = {
 rust_library = rule(
     implementation = _rust_library_impl,
     provides = COMMON_PROVIDERS,
-    attrs = _common_attrs | {
+    attrs = common_attrs | {
         "disable_pipelining": attr.bool(
             default = False,
             doc = dedent("""\
@@ -1028,7 +1028,7 @@ _rust_static_library_transition = transition(
 
 rust_static_library = rule(
     implementation = _rust_static_library_impl,
-    attrs = _common_attrs | {
+    attrs = common_attrs | {
         "platform": attr.label(
             doc = "Optional platform to transition the static library to.",
             default = None,
@@ -1077,7 +1077,7 @@ _rust_shared_library_transition = transition(
 
 rust_shared_library = rule(
     implementation = _rust_shared_library_impl,
-    attrs = _common_attrs | _experimental_use_cc_common_link_attrs | {
+    attrs = common_attrs | _experimental_use_cc_common_link_attrs | {
         "platform": attr.label(
             doc = "Optional platform to transition the shared library to.",
             default = None,
@@ -1130,7 +1130,7 @@ rust_proc_macro = rule(
     # need to declare `_allowlist_function_transition`, see
     # https://docs.bazel.build/versions/main/skylark/config.html#user-defined-transitions.
     attrs = dict(
-        _common_attrs.items(),
+        common_attrs.items(),
         _allowlist_function_transition = attr.label(
             default = Label("//tools/allowlists/function_transition_allowlist"),
         ),
@@ -1218,7 +1218,7 @@ _rust_binary_transition = transition(
 rust_binary = rule(
     implementation = _rust_binary_impl,
     provides = COMMON_PROVIDERS,
-    attrs = _common_attrs | _rust_binary_attrs | {
+    attrs = common_attrs | _rust_binary_attrs | {
         "platform": attr.label(
             doc = "Optional platform to transition the binary to.",
             default = None,
@@ -1324,7 +1324,7 @@ rust_binary = rule(
 """),
 )
 
-def _common_attrs_for_binary_without_process_wrapper(attrs):
+def common_attrs_for_binary_without_process_wrapper(attrs):
     new_attr = dict(attrs)
 
     # use a fake process wrapper
@@ -1360,7 +1360,7 @@ def _common_attrs_for_binary_without_process_wrapper(attrs):
 rust_binary_without_process_wrapper = rule(
     implementation = _rust_binary_impl,
     provides = COMMON_PROVIDERS,
-    attrs = _common_attrs_for_binary_without_process_wrapper(_common_attrs | _rust_binary_attrs | {
+    attrs = common_attrs_for_binary_without_process_wrapper(_common_attrs | _rust_binary_attrs | {
         "platform": attr.label(
             doc = "Optional platform to transition the binary to.",
             default = None,
@@ -1381,7 +1381,7 @@ rust_binary_without_process_wrapper = rule(
 rust_library_without_process_wrapper = rule(
     implementation = _rust_library_impl,
     provides = COMMON_PROVIDERS,
-    attrs = dict(_common_attrs_for_binary_without_process_wrapper(_common_attrs).items()),
+    attrs = dict(common_attrs_for_binary_without_process_wrapper(_common_attrs).items()),
     fragments = ["cpp"],
     toolchains = [
         str(Label("//rust:toolchain_type")),
@@ -1407,7 +1407,7 @@ _rust_test_transition = transition(
 rust_test = rule(
     implementation = _rust_test_impl,
     provides = COMMON_PROVIDERS,
-    attrs = _common_attrs | _rust_test_attrs | {
+    attrs = common_attrs | _rust_test_attrs | {
         "platform": attr.label(
             doc = "Optional platform to transition the test to.",
             default = None,
